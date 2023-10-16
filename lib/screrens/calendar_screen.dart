@@ -31,22 +31,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return true;
   }
 
-  void _startShift()  {
+  void _startShift() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return const Dialog(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Loading...'),
+                ],
+              ),
+            ),
+          );
+        });
+
     Shift shift = Shift(start: currentDay, end: currentDay);
 
-    DatabaseHelper.addNewShiftToDatabase(shift, Globals.repository);
+    DatabaseHelper.addNewShiftToDatabase(shift, Globals.repository)
+        .then((value) {
+      setState(() {
+        shiftIsRunning = true;
+      });
 
-    setState(() {
-      shiftIsRunning = true;
+      Navigator.of(context).pop();
     });
+
+
   }
 
-  void _stopShift()  {
-
-    DatabaseHelper.endShiftToDb(Globals.repository);
-
-    setState(() {
-      shiftIsRunning = false;
+  void _stopShift() {
+    DatabaseHelper.endShiftToDb(Globals.repository).then((value) {
+      setState(() {
+        shiftIsRunning = false;
+      });
     });
   }
 
@@ -87,9 +113,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Column(
                 children: [
                   ElevatedButton(
-                      onPressed: () {}, child: const Text('Add new ride to shift')),
+                      onPressed: () {},
+                      child: const Text('Add new ride to shift')),
                   ElevatedButton(
-                      onPressed: () {}, child: const Text('Go to shift summary')),
+                      onPressed: () {},
+                      child: const Text('Go to shift summary')),
                 ],
               )
           ],

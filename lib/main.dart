@@ -1,15 +1,29 @@
+import 'package:cab_economics/repositories/firebase.dart';
 import 'package:cab_economics/screrens/calendar_screen.dart';
+import 'package:cab_economics/screrens/ride_providers_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
 
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(const MyApp()));
+      .then((value) => runApp(
+            MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (_) => FirebaseRepository(),
+                ),
+              ],
+              child: const MyApp(),
+            ),
+          ));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,9 +37,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: CalendarScreen.routeName,
+      initialRoute: RideProvidersScreen.routeName,
       routes: {
-        CalendarScreen.routeName: (ctx) => CalendarScreen(),
+        CalendarScreen.routeName: (ctx) => const CalendarScreen(),
+        RideProvidersScreen.routeName: (ctx) => const RideProvidersScreen(),
       },
     );
   }
