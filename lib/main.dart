@@ -1,10 +1,13 @@
-import 'package:cab_economics/repositories/firebase.dart';
+import 'package:cab_economics/features/skeleton/providers/selected_page_provider.dart';
+import 'package:cab_economics/features/skeleton/skeleton.dart';
 import 'package:cab_economics/screrens/calendar_screen.dart';
 import 'package:cab_economics/screrens/ride_providers_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'features/ride_providers/presentation/providers/ride_provider_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +21,10 @@ Future<void> main() async {
             MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                  create: (_) => FirebaseRepository(),
+                  create: (ctx) => SelectedPageProvider(),
+                ),
+                ChangeNotifierProvider(
+                  create: (ctx) => RideProviderProvider(),
                 ),
               ],
               child: const MyApp(),
@@ -37,10 +43,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: RideProvidersScreen.routeName,
+      initialRoute: Skeleton.routeName,
       routes: {
         CalendarScreen.routeName: (ctx) => const CalendarScreen(),
         RideProvidersScreen.routeName: (ctx) => const RideProvidersScreen(),
+        Skeleton.routeName: (ctx) => const Skeleton(),
       },
     );
   }

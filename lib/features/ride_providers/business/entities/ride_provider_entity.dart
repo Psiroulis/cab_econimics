@@ -1,8 +1,10 @@
 class RideProviderEntity {
+  final String id;
   final String name;
-  final double commission;
+  final int commission;
 
   const RideProviderEntity({
+    this.id = '',
     required this.name,
     required this.commission,
   });
