@@ -32,6 +32,8 @@ class FirebaseRepository with ChangeNotifier implements Repository {
     };
 
     ref.child(_currentDay.day.toString()).set(newShift).then((value) async {
+
+
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       await prefs.setBool('haveShift', true);

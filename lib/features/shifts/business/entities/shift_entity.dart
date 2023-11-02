@@ -1,14 +1,4 @@
-class NoParams {}
-
-class RideProviderParams {
-  final String id;
-
-  const RideProviderParams({
-    required this.id,
-  });
-}
-
-class ShiftParams {
+class ShiftEntity {
   final DateTime start;
   final DateTime end;
   final double km;
@@ -18,7 +8,8 @@ class ShiftParams {
   final double totalFpa;
   final double totalRides;
 
-  const ShiftParams({
+
+  const ShiftEntity({
     required this.start,
     required this.end,
     this.km = 0,

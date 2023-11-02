@@ -88,40 +88,35 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calendar'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Hello user'),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text('Hello user'),
+          Column(
+            children: [
+              Text(HelperMethods.currentDayOfWeekAsString(currentDay)),
+              Text(currentDay.day.toString()),
+              Text(HelperMethods.currentMonthAsString(currentDay)),
+            ],
+          ),
+          ElevatedButton(
+            onPressed: shiftIsRunning ? _stopShift : _startShift,
+            child: Text(shiftIsRunning ? 'End Shift' : 'Start New Shift'),
+          ),
+          if (shiftIsRunning)
             Column(
               children: [
-                Text(HelperMethods.currentDayOfWeekAsString(currentDay)),
-                Text(currentDay.day.toString()),
-                Text(HelperMethods.currentMonthAsString(currentDay)),
+                ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Add new ride to shift')),
+                ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Go to shift summary')),
               ],
-            ),
-            ElevatedButton(
-              onPressed: shiftIsRunning ? _stopShift : _startShift,
-              child: Text(shiftIsRunning ? 'End Shift' : 'Start New Shift'),
-            ),
-            if (shiftIsRunning)
-              Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Add new ride to shift')),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Go to shift summary')),
-                ],
-              )
-          ],
-        ),
+            )
+        ],
       ),
     );
   }
